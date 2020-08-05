@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>动态计算cell高度遇到约束冲突的解决办法-delims Blog</title>
+  <meta charset="utf-8" />
+  <meta http-equiv="content-language" content="zh-CN" />
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="applicable-device" content="pc,mobile">
+  <meta name="google-site-verification" content="ckhUaoa05QCmWoE1FafzTBcqYI4yBOy-UJKopXDS18M" />
+  <meta name="author" content="delims" />
+  <meta name="description" content="动态计算cell高度遇到约束冲突的解决办法"/>
+  <meta name="keywords" content="delims,iOS"/>
+  <link rel="icon" href="/static/img/favicon.ico" />
+  <link rel="apple-touch-icon" href="/static/img/logo.png" />
+  <link rel="stylesheet" href="/static/css/common.css?t=20200805153928">
+  <link rel="stylesheet" href="/static/css/post.css?t=20200805153928">
+  <link rel="stylesheet" href="/static/css/highlight.css?t=20200805153928">
+</head>
+<body ondragstart="return false;">
+<header class="header">
+  <img class="logo" src="/static/img/logo.jpg" />
+  <nav class="menu">
+    <a href="/" class="hover-underline">首页</a>
+    <a href="/pages/categories.html" class="hover-underline">归类</a>
+    <a href="/pages/search.html" class="hover-underline">搜索</a>
+    <a href="/pages/about.html" class="hover-underline">关于</a>
+    </nav>
+</header>
+<div class="page page-post">
+  <h1 class="title" id="动态计算cell高度遇到约束冲突的解决办法">动态计算cell高度遇到约束冲突的解决办法</h1>
+  
+  <div class="subtitle">delims 于 2018-07-17 发布</div>
+  
+  <div class="post">
+    <h1 id="前言">前言</h1>
+<blockquote>
+  <p>开发一个cell高度不确定的列表，我们通常的做法是给cell设置一个自上到下的约束，然后设置UITableView的rowHeight属性为UITableViewAutomaticDimension，这样cell就可以根据内容自适应高度，正常情况下是没有问题的。</p>
+</blockquote>
+
+<p>前段时间我开发一个类似微信朋友圈的列表，cell上面有label和图片展示控件，图片展示控件是我自己封装的，取名为TXShowFileView，继承自UICollectionView的九宫格图片展示控件，也支持视频和附件。把TXShowFileView放在xib中，设置四周约束，这样整个cell自上到下的约束就设置完了，在给cell设置model的时候，会传值给TXShowFileView一组附件模型，TXShowFileView根据附件模型的类型和数量，自动计算自身大小，然后设置自身的高度约束。这样就可以确定cell的高度了。</p>
+
+<p>起初是没有问题的，后来发现在滑动的时候会报一个警告，如下:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"&lt;NSLayoutConstraint:0x1c0482bc0 UIImageView:0x1167efd90.height == 36&gt;",
+"&lt;NSLayoutConstraint:0x1c0a8b8b0 TXAddFileView:0x1089ebc00.height == 80.3333&gt;",
+"&lt;NSLayoutConstraint:0x1c0a8bcc0 UIImageView:0x1167efd90.top == TXMView:0x1167efba0.top + 12&gt;",
+"&lt;NSLayoutConstraint:0x1c0484dd0 UILabel:0x1167effc0.top == UIImageView:0x1167efd90.top&gt;",
+"&lt;NSLayoutConstraint:0x1c0484e20 UILabel:0x1167effc0.centerY == UIImageView:0x1167efd90.centerY - 10&gt;",
+"&lt;NSLayoutConstraint:0x1c0a8be00 UILabel:0x1167f02a0.top == UILabel:0x1167effc0.bottom + 5&gt;",
+"&lt;NSLayoutConstraint:0x1c0484ec0 UILabel:0x1167f0b40.top == UILabel:0x1167f02a0.bottom + 18&gt;",
+"&lt;NSLayoutConstraint:0x1c0a8bfe0 TXMView:0x1167efba0.bottom == TXAddFileView:0x1089ebc00.bottom + 16&gt;",
+"&lt;NSLayoutConstraint:0x1c0a8c080 TXAddFileView:0x1089ebc00.top == UILabel:0x1167f0b40.bottom + 12&gt;",
+"&lt;NSLayoutConstraint:0x1c0485000 TXMView:0x1167efba0.top == UITableViewCellContentView:0x1167ef580.top&gt;",
+"&lt;NSLayoutConstraint:0x1c0a8c300 UITableViewCellContentView:0x1167ef580.bottom == TXMView:0x1167efba0.bottom&gt;",
+"&lt;NSLayoutConstraint:0x1c0a8cda0 UITableViewCellContentView:0x1167ef580.height == 101&gt;"
+</code></pre></div></div>
+
+<p>这个警告的出现会发生在有附件的cell重用为没有附件的cell时。或者没有附件的cell重用为有附件的cell时。没有附件时TXShowFileView的高度为零。
+你可能会想到我设置TXShowFileView的高度约束时，cell已经返回了。然而并不是这样的。返回cell时，高度约束已经设置完了。</p>
+
+<p>一般出现这种警告往往就是约束冲突，你需要去掉一个引起冲突的约束。看着这个警告，我正准备从头到尾的排查一下到底是哪个约束出现了问题时。我注意到最后一行</p>
+
+<p><code class="highlighter-rouge">&lt;NSLayoutConstraint:0x1c0a8cda0 UITableViewCellContentView:0x1167ef580.height == 101&gt;</code></p>
+
+<p>很明显这是给cell的ContentView添加的约束，然而我并没有添加这个约束，我猜想这可能是系统计算出cell的高度，然后自己添加的。这样一来，系统自己给cell添加了一个高度约束，而我给cell子视图添加的自上到下的约束已经确定了cell的高度了，所以就出现了约束冲突。就算是添加了两次高度约束，那这两个高度应该是一样的啊，为什么还冲突呢，我也不知道，但是我想到了一个解决办法。</p>
+
+<p>想到系统添加的约束应该比较强势的，UILayoutPriorityRequired。那我就TXShowFileView的高度约束设置为 UILayoutPriorityDefaultHigh 试试。果然，通过调试发现没有报警告了。</p>
+
+<p>正常使用autolayout约束应该是非常清晰明确有条理的，这样才不会导致约束冲突 ，但是有些情况下难免会出现约束冲突，<strong>这时候可以适当的降低一下约束的权重来避免冲突。</strong></p>
+
+  </div>
+  
+</div>
+<footer class="footer">
+  <span></span>
+</footer>
+<div id="to-top">
+  <span></span>
+  <span></span>
+</div>
+<script>window.blog={baseurl:"", buildAt:"20200805153928"}</script>
+<script type="text/javascript" src="/static/js/blog.js?t=20200805153928"></script>
+<script type="text/javascript" src="/static/js/search.js?t=20200805153928"></script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>发布cocoapods库后,通过pod search 搜不到的解决办法-delims Blog</title>
+  <meta charset="utf-8" />
+  <meta http-equiv="content-language" content="zh-CN" />
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="applicable-device" content="pc,mobile">
+  <meta name="google-site-verification" content="ckhUaoa05QCmWoE1FafzTBcqYI4yBOy-UJKopXDS18M" />
+  <meta name="author" content="delims" />
+  <meta name="description" content="发布cocoapods库后,通过pod search 搜不到的解决办法"/>
+  <meta name="keywords" content="delims,iOS"/>
+  <link rel="icon" href="/static/img/favicon.ico" />
+  <link rel="apple-touch-icon" href="/static/img/logo.png" />
+  <link rel="stylesheet" href="/static/css/common.css?t=20200805153928">
+  <link rel="stylesheet" href="/static/css/post.css?t=20200805153928">
+  <link rel="stylesheet" href="/static/css/highlight.css?t=20200805153928">
+</head>
+<body ondragstart="return false;">
+<header class="header">
+  <img class="logo" src="/static/img/logo.jpg" />
+  <nav class="menu">
+    <a href="/" class="hover-underline">首页</a>
+    <a href="/pages/categories.html" class="hover-underline">归类</a>
+    <a href="/pages/search.html" class="hover-underline">搜索</a>
+    <a href="/pages/about.html" class="hover-underline">关于</a>
+    </nav>
+</header>
+<div class="page page-post">
+  <h1 class="title" id="发布cocoapods库后,通过pod search 搜不到的解决办法">发布cocoapods库后,通过pod search 搜不到的解决办法</h1>
+  
+  <div class="subtitle">delims 于 2018-07-24 发布</div>
+  
+  <div class="post">
+    <blockquote>
+  <p>辛苦发布了CocoaPods框架后，通过pod search却搜不到，别着急，下面这个方法或许可以帮到你</p>
+</blockquote>
+
+<p>search_index.json文件是pod search搜索时的缓存文件，删除 search_index.json</p>
+
+<p><code class="highlighter-rouge">rm ~/Library/Caches/CocoaPods/search_index.json</code></p>
+
+<p>打开终端重新使用 pod search 搜索你的框架,这时 search_index.json 缓存文件会被重新生成,你的框架就可以搜索出来了。</p>
+
+
+  </div>
+  
+</div>
+<footer class="footer">
+  <span></span>
+</footer>
+<div id="to-top">
+  <span></span>
+  <span></span>
+</div>
+<script>window.blog={baseurl:"", buildAt:"20200805153928"}</script>
+<script type="text/javascript" src="/static/js/blog.js?t=20200805153928"></script>
+<script type="text/javascript" src="/static/js/search.js?t=20200805153928"></script>
+</body>
+</html>

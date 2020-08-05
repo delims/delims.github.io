@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Xcode代码注释快速查看-delims Blog</title>
+  <meta charset="utf-8" />
+  <meta http-equiv="content-language" content="zh-CN" />
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="applicable-device" content="pc,mobile">
+  <meta name="google-site-verification" content="ckhUaoa05QCmWoE1FafzTBcqYI4yBOy-UJKopXDS18M" />
+  <meta name="author" content="delims" />
+  <meta name="description" content="Xcode代码注释快速查看"/>
+  <meta name="keywords" content="delims,iOS"/>
+  <link rel="icon" href="/static/img/favicon.ico" />
+  <link rel="apple-touch-icon" href="/static/img/logo.png" />
+  <link rel="stylesheet" href="/static/css/common.css?t=20200805153928">
+  <link rel="stylesheet" href="/static/css/post.css?t=20200805153928">
+  <link rel="stylesheet" href="/static/css/highlight.css?t=20200805153928">
+</head>
+<body ondragstart="return false;">
+<header class="header">
+  <img class="logo" src="/static/img/logo.jpg" />
+  <nav class="menu">
+    <a href="/" class="hover-underline">首页</a>
+    <a href="/pages/categories.html" class="hover-underline">归类</a>
+    <a href="/pages/search.html" class="hover-underline">搜索</a>
+    <a href="/pages/about.html" class="hover-underline">关于</a>
+    </nav>
+</header>
+<div class="page page-post">
+  <h1 class="title" id="Xcode代码注释快速查看">Xcode代码注释快速查看</h1>
+  
+  <div class="subtitle">delims 于 2020-07-30 发布</div>
+  
+  <div class="post">
+    <p>我们在使用系统API的时候，只能看到头文件。我们打开头文件，比如NSString.h</p>
+
+<p>找到方法stringWithFormat的定义。发现只是轻描淡写的一句</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+ (instancetype)stringWithFormat:(NSString *)format, ... NS_FORMAT_FUNCTION(1,2);
+</code></pre></div></div>
+<p>但是当我们敲出来 stringWithFormat ，按住command 鼠标点击这个方法的时候却发现有这么多注释</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Summary
+
+Returns a string created by using a given format string as a template into which the remaining argument values are substituted.
+Declaration
+
++ (instancetype)stringWithFormat:(NSString *)format, ...;
+Discussion
+
+This method invokes initWithFormat:locale:arguments: without applying any localization. This is useful, for example, when working with fixed-format representations of information that is written out and read back in at a later time.
+Important
+When working with text that’s presented to the user, use the localizedStringWithFormat: method, or the initWithFormat:locale: or initWithFormat:locale:arguments: method, passing currentLocale as the locale.
+Parameters
+
+format	
+A format string. See Formatting String Objects for examples of how to use this method, and String Format Specifiers for a list of format specifiers. This value must not be nil.
+Important
+Raises an NSInvalidArgumentException if format is nil.
+...	
+A comma-separated list of arguments to substitute into format.
+Returns
+
+A string created by using format as a template into which the remaining argument values are substituted without any localization.
+</code></pre></div></div>
+
+<p>这么多的注释来自哪里呢。</p>
+
+<p>起初我也困惑过，后来我想了想，可能来自于m文件，但是m文件我们看不到。</p>
+
+<p>前几天写了一个小工具，</p>
+
+<p>功能是把swagger上面的接口说明自动集成到项目里面，并且加上该有的接口说明，功能很简单，我写了三四个小时。</p>
+
+<p>为了看起来更整洁，我创建了2个文件。h文件保存简介的接口定义。列如</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>static NSString * const kApiGetSomeThing = @"/get/some/thing"; //过获取一些东西
+</code></pre></div></div>
+<p>同名m文件里保存复杂的注释，包括请求方式，参数说明 例如</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/** 
+@brief 查询所有报警类型
+@code
+请求路径: /get/some/thing
+请求方法: get
+参数说明:
+
+param1    string  参数1
+param2    string  参数2
+@endcode
+*/ 
+extern NSString * const kApiGetSomeThing;
+
+</code></pre></div></div>
+
+<p>m文件主要起到一个快速查看注释的作用。
+当我们打出kApiGetSomeThing并查看注释的时候，就有快速提示。
+聪明的你不妨试试。</p>
+
+<p>今天遇到一个问题。
+发现快速提示竟然不好用了，
+纠结了几分钟，后来想了一下。
+可能是没有把接口.m文件加入到build phrase的compile resource里面</p>
+
+<p>加入之后就正常了。</p>
+
+<p>时间太紧了，就写这些吧 。</p>
+
+<p>最近压力太大了。</p>
+
+
+  </div>
+  
+</div>
+<footer class="footer">
+  <span></span>
+</footer>
+<div id="to-top">
+  <span></span>
+  <span></span>
+</div>
+<script>window.blog={baseurl:"", buildAt:"20200805153928"}</script>
+<script type="text/javascript" src="/static/js/blog.js?t=20200805153928"></script>
+<script type="text/javascript" src="/static/js/search.js?t=20200805153928"></script>
+</body>
+</html>

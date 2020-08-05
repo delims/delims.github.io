@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Swift复习要点-delims Blog</title>
+  <meta charset="utf-8" />
+  <meta http-equiv="content-language" content="zh-CN" />
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="applicable-device" content="pc,mobile">
+  <meta name="google-site-verification" content="ckhUaoa05QCmWoE1FafzTBcqYI4yBOy-UJKopXDS18M" />
+  <meta name="author" content="delims" />
+  <meta name="description" content="Swift复习要点"/>
+  <meta name="keywords" content="delims,swift"/>
+  <link rel="icon" href="/static/img/favicon.ico" />
+  <link rel="apple-touch-icon" href="/static/img/logo.png" />
+  <link rel="stylesheet" href="/static/css/common.css?t=20200805153928">
+  <link rel="stylesheet" href="/static/css/post.css?t=20200805153928">
+  <link rel="stylesheet" href="/static/css/highlight.css?t=20200805153928">
+</head>
+<body ondragstart="return false;">
+<header class="header">
+  <img class="logo" src="/static/img/logo.jpg" />
+  <nav class="menu">
+    <a href="/" class="hover-underline">首页</a>
+    <a href="/pages/categories.html" class="hover-underline">归类</a>
+    <a href="/pages/search.html" class="hover-underline">搜索</a>
+    <a href="/pages/about.html" class="hover-underline">关于</a>
+    </nav>
+</header>
+<div class="page page-post">
+  <h1 class="title" id="Swift复习要点">Swift复习要点</h1>
+  
+  <div class="subtitle">delims 于 2020-07-29 发布</div>
+  
+  <div class="post">
+    <h3 id="swift3escaping">Swift3:@escaping</h3>
+
+<ul>
+  <li>
+    <p>@escaping标明这个闭包是会“逃逸”,通俗点说就是这个闭包在函数执行完成之后才被调用.</p>
+  </li>
+  <li>
+    <p>没有逃逸的闭包的作用域是不会超过函数本身的，所以说我们不需要担心在闭包内持有self</p>
+  </li>
+</ul>
+
+<h3 id="as-as-as">as as? as!</h3>
+<h4 id="as">as</h4>
+<ul>
+  <li>从派生类转换为基类，向上转类型(upcasting)</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class Animal{}
+class Dog:Animal{}
+let  cat = Dog()
+let dog = cat as Animal
+</code></pre></div></div>
+<ul>
+  <li>消除二义性，数值类型转换</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>let num1 = 4 as Int
+let num2 = 5.09 as CGFloat
+</code></pre></div></div>
+<h4 id="as-1">as!</h4>
+<ul>
+  <li>向下转型(Downcasting)时使用,由于是强制类型转换，如果转换失败会报runtime运行错误</li>
+</ul>
+
+<h4 id="as的使用场合">as?的使用场合</h4>
+
+<ul>
+  <li>as?和as!操作符的转换规则是一样的，只是as?在转换失败之后会返回nil对象</li>
+</ul>
+
+
+  </div>
+  
+</div>
+<footer class="footer">
+  <span></span>
+</footer>
+<div id="to-top">
+  <span></span>
+  <span></span>
+</div>
+<script>window.blog={baseurl:"", buildAt:"20200805153928"}</script>
+<script type="text/javascript" src="/static/js/blog.js?t=20200805153928"></script>
+<script type="text/javascript" src="/static/js/search.js?t=20200805153928"></script>
+</body>
+</html>

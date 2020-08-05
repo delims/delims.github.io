@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>可以通过手机壳颜色来改变app的主题吗-delims Blog</title>
+  <meta charset="utf-8" />
+  <meta http-equiv="content-language" content="zh-CN" />
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="applicable-device" content="pc,mobile">
+  <meta name="google-site-verification" content="ckhUaoa05QCmWoE1FafzTBcqYI4yBOy-UJKopXDS18M" />
+  <meta name="author" content="delims" />
+  <meta name="description" content="可以通过手机壳颜色来改变app的主题吗"/>
+  <meta name="keywords" content="delims,iOS"/>
+  <link rel="icon" href="/static/img/favicon.ico" />
+  <link rel="apple-touch-icon" href="/static/img/logo.png" />
+  <link rel="stylesheet" href="/static/css/common.css?t=20200805153928">
+  <link rel="stylesheet" href="/static/css/post.css?t=20200805153928">
+  <link rel="stylesheet" href="/static/css/highlight.css?t=20200805153928">
+</head>
+<body ondragstart="return false;">
+<header class="header">
+  <img class="logo" src="/static/img/logo.jpg" />
+  <nav class="menu">
+    <a href="/" class="hover-underline">首页</a>
+    <a href="/pages/categories.html" class="hover-underline">归类</a>
+    <a href="/pages/search.html" class="hover-underline">搜索</a>
+    <a href="/pages/about.html" class="hover-underline">关于</a>
+    </nav>
+</header>
+<div class="page page-post">
+  <h1 class="title" id="可以通过手机壳颜色来改变app的主题吗">可以通过手机壳颜色来改变app的主题吗</h1>
+  
+  <div class="subtitle">delims 于 2018-08-03 发布</div>
+  
+  <div class="post">
+    <h1 id="背景">背景</h1>
+
+<blockquote>
+  <p>某互联网公司产品经理提了个需求，要求app做到可以根据用户手机壳颜色来改变app主题颜色，最后产品经理和程序员打了起来。</p>
+</blockquote>
+
+<p>最近这件事刷了屏，不知道这件事是不是网友故意调侃。自古以来程序员和产品经理似乎都是一对冤家，哈哈，扯远了。想想产品经理提的这个需求也挺奇葩的。这个根本没法实现嘛，气愤中。。</p>
+
+<p>冷静下来，思考一下，这个需求到底能不能实现呢？我觉得可以考虑从下面这个方案入手。</p>
+
+<h1 id="方案">方案</h1>
+
+<p>启动前置摄像头，根据拍摄到的用户眼睛中手机壳的倒影来检测手机壳的颜色。</p>
+
+<h1 id="可行性">可行性</h1>
+
+<p>要想检测用户眼睛中手机的倒影，那需要先分析一下前置摄像头的视力是多少。我们都知道正常人视力是1.0，对应的视角是1角分，当然也有好眼1.5或2.0，对应视角是0.7角分和0.5角分。</p>
+
+<p>我用iPhone 6s距离5米通过后置摄像头拍摄视力表，大概可以勉强拍清1.2，1.2已经开始模糊，1.5已经变成了小黑点。iPhone6s的后置摄像头是1200万像素，而前置摄像头低于这个像素。我没有使用过手机的前置摄像头拍摄过视力表，但是可以通过像素数来大体推算一下</p>
+
+<p>iPhone 6s 前置摄像头是500万像素，对应视力 500/1200 * 1.2 = 0.5
+iPhone X 前摄摄像头是700万像素，对应视力 700/1200 * 1.2 = 0.7</p>
+
+<h3 id="凸面镜">凸面镜</h3>
+
+<blockquote>
+  <p>凸面镜成像，属于光学规律。平行光线投射到凸面镜上，反射的光线将成为散开光线，如果顺着反射光线的相反方向延伸到凸面镜镜面的后面，可会聚并相交于一点，这一点就是凸面镜的主焦点（F）。</p>
+</blockquote>
+
+<p>角膜可以看做是一个凸面镜，角膜的屈光度是43D (数据来自于《眼科学》)，那么角膜的焦距是</p>
+
+<p><strong>1 ÷ 43 ≈ 0.0233米，即 2.33厘米，</strong></p>
+
+<p>如果一束平行光通过角膜反射产生倒影，那么倒影的虚像就在角膜后方的2.33厘米处。但是我们看手机，手机漫反射发出的光不是平行光，而是散射光，散射光通过角膜反射产生的倒影距离角膜光心比平行光要远。远多少呢。我们来计算一下。</p>
+
+<p>假设我们看手机的距离是30厘米，这30厘米也是焦距，产生的屈光度是</p>
+
+<p><strong>1 ÷ 0.3 ≈ 3.3D</strong></p>
+
+<p>这个屈光度会抵消掉角膜的屈光度，那么倒影的焦距是</p>
+
+<p><strong>1 ÷ (43-3.3) ≈ 0.0252米，即2.52厘米</strong></p>
+
+<p><strong>倒影的大小是多少呢。</strong></p>
+
+<p>手机壳基本都是套在手机上，正面看只能看到边框，假设手机壳的边框宽度是0.5厘米，根据相似三角形可以计算出，倒影中边框的宽度是</p>
+
+<p><strong>2.52 ÷ (2.52+30) * 0.5 ≈ 0.0775厘米</strong></p>
+
+<p>你是不是被绕晕了？没关系，你只需要知道<strong>0.0775厘米</strong>就是距离眼睛30厘米的手机壳边框在角膜中倒影的宽度就可以了。
+手机前置摄像头要想辨认角膜中的手机壳，那么需要的视角是多少呢？
+我们可以大体看做这是一个由<strong>0.0775</strong>厘米和<strong>30+2.52</strong>厘米作为两条直角边形成的直角三角形，这个最小的锐角就是视角，通过反三角函数计算得出视角是</p>
+
+<p><strong>arcsin(0.0775 ÷ 32.52) ≈ 0.1365445°</strong>
+转成角分就是 <strong>8.193′</strong></p>
+
+<p>这个视角对应的视力是多少度呢
+推算一下</p>
+<ul>
+  <li>视力1.0的视角是1′</li>
+  <li>视力0.1的视角是10′</li>
+  <li>视力2.0的视角是0.5′
+可以推算出，在视力1.0视角是1′的基础上</li>
+</ul>
+
+<p><strong>视角放大几倍就是视力数值除以几</strong>
+<strong>视角缩小几倍就是视力数值乘以几</strong></p>
+
+<p><strong>可以计算出8.19′的视角对应的视力数值是 1 ÷ 8.19 ≈ 0.12</strong></p>
+
+<p>手机前置摄像头的视力达到0.12就可以距离眼睛30厘米拍摄到用户眼睛中手机壳前边框宽度并成像为1像素。前面推算出前置摄像头视力为0.5以上，那么可以成像为4像素以上。</p>
+
+<p>可以推断出现在流行的手机基本都可以通过前摄摄像头解析到用户角膜中的手机壳的倒影。这只是理论数据，实际当中可能会有下面几个影响因素：</p>
+
+<ul>
+  <li>光线太弱导致成像不清楚</li>
+  <li>摄像头像素达到了，但是解析能力太差，导致成像不清楚</li>
+  <li>最主要是，角膜并镜子，对光线的反射能力太差，导致倒影发虚</li>
+</ul>
+
+<p>但是手机将图像数字化后，可以分析图像的颜色数值来精确判断，即使一点色差都可以察觉到，所以这个或许可以实现。主要还是看手机对图像的的捕捉和解析能力。</p>
+
+<h1 id="结论">结论</h1>
+
+<p>通过分析，这个需求也并不是完全不可能实现，只是对技术以及硬件的要求都很高。</p>
+
+<h1 id="声明">声明</h1>
+
+<p>本文为本人原创，数据分析计算过程中可能存在错误。如需转载请注明原文地址，谢谢~</p>
+
+
+  </div>
+  
+</div>
+<footer class="footer">
+  <span></span>
+</footer>
+<div id="to-top">
+  <span></span>
+  <span></span>
+</div>
+<script>window.blog={baseurl:"", buildAt:"20200805153928"}</script>
+<script type="text/javascript" src="/static/js/blog.js?t=20200805153928"></script>
+<script type="text/javascript" src="/static/js/search.js?t=20200805153928"></script>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>一些小技巧-delims Blog</title>
+  <meta charset="utf-8" />
+  <meta http-equiv="content-language" content="zh-CN" />
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="applicable-device" content="pc,mobile">
+  <meta name="google-site-verification" content="ckhUaoa05QCmWoE1FafzTBcqYI4yBOy-UJKopXDS18M" />
+  <meta name="author" content="delims" />
+  <meta name="description" content="一些小技巧"/>
+  <meta name="keywords" content="delims,iOS"/>
+  <link rel="icon" href="/static/img/favicon.ico" />
+  <link rel="apple-touch-icon" href="/static/img/logo.png" />
+  <link rel="stylesheet" href="/static/css/common.css?t=20200805153928">
+  <link rel="stylesheet" href="/static/css/post.css?t=20200805153928">
+  <link rel="stylesheet" href="/static/css/highlight.css?t=20200805153928">
+</head>
+<body ondragstart="return false;">
+<header class="header">
+  <img class="logo" src="/static/img/logo.jpg" />
+  <nav class="menu">
+    <a href="/" class="hover-underline">首页</a>
+    <a href="/pages/categories.html" class="hover-underline">归类</a>
+    <a href="/pages/search.html" class="hover-underline">搜索</a>
+    <a href="/pages/about.html" class="hover-underline">关于</a>
+    </nav>
+</header>
+<div class="page page-post">
+  <h1 class="title" id="一些小技巧">一些小技巧</h1>
+  
+  <div class="subtitle">delims 于 2018-08-22 发布</div>
+  
+  <div class="post">
+    <h1 id="2018年08月22日">2018年08月22日</h1>
+
+<h2 id="git项目文件忽略规则">git项目文件忽略规则</h2>
+
+<p>在仓库目录下新建一个.gitignore文件，里面填写相应的忽略规则，即可忽略文件，一行一个规则，规则如下：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>规则</th>
+      <th>语法</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>忽略<em>.o和</em>.a文件</td>
+      <td>*.[oa]</td>
+    </tr>
+    <tr>
+      <td>忽略 <em>.b</em> 和 <em>.B</em>文件，my.b除外</td>
+      <td>*.[bB]<br />!my.b</td>
+    </tr>
+    <tr>
+      <td>忽略Pods文件和Pods目录</td>
+      <td>Pods</td>
+    </tr>
+    <tr>
+      <td>只忽略Pods目录，不忽略Pods文件</td>
+      <td>Pods/</td>
+    </tr>
+    <tr>
+      <td>只忽略Pods文件，不忽略Pods目录</td>
+      <td>Pods<br />!Pods/</td>
+    </tr>
+    <tr>
+      <td>只忽略当前目录下的Pod文件和目录<br />子目录的Pod不在忽略范围内</td>
+      <td>/Pod</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="命令行下git和svn实现换行">命令行下git和svn实现换行</h2>
+
+<p>可以用单引号’把提交的注释括起来。像这样</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ git commit -m '我要换行了哦
+&gt; 你看我换行了吧，哈哈哈'
+</code></pre></div></div>
+<h2 id="编辑已经提交的git注释">编辑已经提交的git注释</h2>
+
+<p>用命令 <code class="highlighter-rouge">git commit --amend</code> 可以修改最后一次的提交，执行这个命令后打印出日志，直接编辑然后保存。</p>
+
+<h2 id="svn-已经add的文件如何变成未add的状态">svn 已经add的文件如何变成未add的状态</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ svn revert [PATH] --depth infinity
+</code></pre></div></div>
+<h2 id="svn-批量删除文件">svn 批量删除文件</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ svn st | grep ! | awk '{print $2"@"}' | xargs svn del
+</code></pre></div></div>
+
+<h2 id="svn-log-指定时间段和用户">svn log 指定时间段和用户</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ svn log -r {2018-8-1}:{2018-8-31} --search delims //查看用户delims这个时间段的提交日志
+$ svn log -r 5748:5767 //查看两个版本号之间的提交日志
+</code></pre></div></div>
+<h2 id="intrinsic-content-size">Intrinsic Content Size</h2>
+
+<p>Content Compression Resistance –&gt; 如果内容的抗压缩阻力的优先级越高，那么视图越不容易被压缩；</p>
+
+<p>Content Hugging –&gt; 如果内容的抗拉伸阻力的优先级越高，那么视图越不容易被拉伸；</p>
+
+
+  </div>
+  
+</div>
+<footer class="footer">
+  <span></span>
+</footer>
+<div id="to-top">
+  <span></span>
+  <span></span>
+</div>
+<script>window.blog={baseurl:"", buildAt:"20200805153928"}</script>
+<script type="text/javascript" src="/static/js/blog.js?t=20200805153928"></script>
+<script type="text/javascript" src="/static/js/search.js?t=20200805153928"></script>
+</body>
+</html>

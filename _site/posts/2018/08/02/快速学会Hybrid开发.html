@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>快速学会hybrid开发-delims Blog</title>
+  <meta charset="utf-8" />
+  <meta http-equiv="content-language" content="zh-CN" />
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="applicable-device" content="pc,mobile">
+  <meta name="google-site-verification" content="ckhUaoa05QCmWoE1FafzTBcqYI4yBOy-UJKopXDS18M" />
+  <meta name="author" content="delims" />
+  <meta name="description" content="快速学会hybrid开发"/>
+  <meta name="keywords" content="delims,iOS"/>
+  <link rel="icon" href="/static/img/favicon.ico" />
+  <link rel="apple-touch-icon" href="/static/img/logo.png" />
+  <link rel="stylesheet" href="/static/css/common.css?t=20200805153928">
+  <link rel="stylesheet" href="/static/css/post.css?t=20200805153928">
+  <link rel="stylesheet" href="/static/css/highlight.css?t=20200805153928">
+</head>
+<body ondragstart="return false;">
+<header class="header">
+  <img class="logo" src="/static/img/logo.jpg" />
+  <nav class="menu">
+    <a href="/" class="hover-underline">首页</a>
+    <a href="/pages/categories.html" class="hover-underline">归类</a>
+    <a href="/pages/search.html" class="hover-underline">搜索</a>
+    <a href="/pages/about.html" class="hover-underline">关于</a>
+    </nav>
+</header>
+<div class="page page-post">
+  <h1 class="title" id="快速学会hybrid开发">快速学会hybrid开发</h1>
+  
+  <div class="subtitle">delims 于 2018-08-02 发布</div>
+  
+  <div class="post">
+    <h1 id="前言">前言</h1>
+<p>初次听到<em>oc与js交互</em>时，你可能会觉得这是一种高深的技术，其实不然，它并不高深，也很好学，oc与js交互还有另外一个很高大上的名字叫 Hybrid开发。</p>
+
+<p>苹果提供了一个JavaScriptCore框架，用于oc与js交互，里面主要有这几个类</p>
+
+<ul>
+  <li>JSContext：给JavaScript提供运行的上下文环境</li>
+  <li>JSValue：JavaScript和Objective-C数据和方法的桥梁</li>
+  <li>JSManagedValue：管理数据和方法的类</li>
+  <li>JSVirtualMachine：处理线程相关，使用较少</li>
+  <li>JSExport：这是一个协议，如果采用协议的方法交互，自己定义的协议必须遵守此协议</li>
+</ul>
+
+<p>下面我用最少的代码来实现js交互，为的就是让小白快速学会js交互，大神可以略过。。。这几个类不会全部用到，如果你感兴趣，可以看一下官方文档，深入学习。</p>
+
+<p>js与oc交互，就是网页与原生代码互相调用，首先我们创建一个含有js代码的网页<code class="highlighter-rouge">js.html</code>,里面有三个按钮，当点击按钮的时调用原生方法。</p>
+
+<p><strong><code class="highlighter-rouge">js.html</code> 源码如下</strong></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;script type="text/javascript"&gt;
+function buttonClick1(){
+ocObject.buttonClick();
+}
+function buttonClick2(){
+ocObject.buttonClick2("给我打印这个字符串");
+}
+function buttonClick3(){
+ocObject.buttonClick3("参数1","参数2","参数3");
+}
+&lt;/script&gt;
+&lt;button onclick="buttonClick1()"&gt;调无参方法&lt;/button&gt;
+&lt;br /&gt;&lt;br /&gt;
+&lt;button onclick="buttonClick2()"&gt;调1个参方法&lt;/button&gt;
+&lt;br /&gt;&lt;br /&gt;
+&lt;button onclick="buttonClick3()"&gt;调3个参方法&lt;/button&gt;
+</code></pre></div></div>
+
+<p>创建一个与js交互的原生类<code class="highlighter-rouge">JSClass</code>, 定义一个协议<code class="highlighter-rouge">JSClassDelegate </code>继承自协议<code class="highlighter-rouge">JSExport</code>，<code class="highlighter-rouge">JSClassDelegate </code>中定义了js调用的方法，<code class="highlighter-rouge">JSClass</code>需遵守该协议才能与js交互。</p>
+
+<p><strong><code class="highlighter-rouge">JSClass.h</code> 源码如下</strong></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#import &lt;Foundation/Foundation.h&gt;
+#import &lt;JavaScriptCore/JavaScriptCore.h&gt;
+@protocol JSClassDelegate &lt;JSExport&gt;
+- (void)buttonClick;
+- (void)buttonClick2:(NSString *)arg;
+- (void)buttonClick3:(NSString *)arg1 :(NSString*)arg2 :(NSString*)arg3;
+@end
+
+@interface JSClass : NSObject&lt;JSClassDelegate&gt;
+@end
+</code></pre></div></div>
+
+<p><strong><code class="highlighter-rouge">JSClass.m</code> 源码如下</strong></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#import "JSClass.h"
+@implementation JSClass
+- (void)buttonClick{
+NSLog(@"点击了按钮");
+}
+- (void)buttonClick2:(NSString *)arg{
+NSLog(@"%@",arg);
+}
+- (void)buttonClick3:(NSString *)arg1 :(NSString *)arg2 :(NSString *)arg3{
+NSLog(@"%@",arg1);
+NSLog(@"%@",arg2);
+NSLog(@"%@",arg3);
+}
+@end
+</code></pre></div></div>
+
+<p>有<strong>了html页面</strong>和<strong>JSClass</strong>，下面就可以将它们绑定起来了。
+直接上代码</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#import "ViewController.h"
+#import "JSClass.h"
+
+@interface ViewController ()&lt;UIWebViewDelegate&gt;
+@property (nonatomic,weak) UIWebView *webView;
+@end
+
+@implementation ViewController
+
+- (void)viewDidLoad {
+[super viewDidLoad];
+NSString *path = [[NSBundle mainBundle] pathForResource:@"js" ofType:@"html"];
+NSString *content = [[NSString alloc] initWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
+if (content.length == 0) return;
+UIWebView *webView  = [[UIWebView alloc] init];
+webView.delegate = self;
+[self.view addSubview:webView];
+self.webView = webView;
+[webView loadHTMLString:content baseURL:nil];
+// Do any additional setup after loading the view, typically from a nib.
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView{
+//获取js上下文对象
+JSContext *context =[webView valueForKeyPath:@"documentView.webView.mainFrame.javaScriptContext"];
+//创建与js绑定的原生对象
+JSClass *jsObject = [JSClass new];
+//原生对象传给js
+context[@"ocObject"] = jsObject;
+}
+
+- (void)viewDidLayoutSubviews
+{
+[super viewDidLayoutSubviews];
+self.webView.frame = self.view.bounds;
+}
+
+- (void)didReceiveMemoryWarning {
+[super didReceiveMemoryWarning];
+// Dispose of any resources that can be recreated.
+}
+@end
+</code></pre></div></div>
+
+<h1 id="效果">效果</h1>
+<p>我们来运行一下</p>
+
+<p><img src="https://delims.github.io/static/cocoapods/images/hybrid.jpg" alt="效果图" /></p>
+
+<p>有点丑，但是不影响我们调试功能
+依次点击三个按钮后打印信息如下</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>2018-08-02 16:06:03.116370+0800 Hybrid_demo[31435:3830397] 调用了oc的无参方法
+2018-08-02 16:06:04.581703+0800 Hybrid_demo[31435:3830397] 给我打印这个字符串
+2018-08-02 16:06:05.485736+0800 Hybrid_demo[31435:3830397] 参数1
+2018-08-02 16:06:05.486490+0800 Hybrid_demo[31435:3830397] 参数2
+2018-08-02 16:06:05.487110+0800 Hybrid_demo[31435:3830397] 参数3
+</code></pre></div></div>
+
+<p>说明js已经成功调用了原生方法，是不是so easy</p>
+
+<p>源码地址：<a href="https://github.com/delims/Hybrid_demo.git">https://github.com/delims/Hybrid_demo.git</a></p>
+
+<p>欢迎转载，转载请注明原文地址，谢谢~</p>
+
+
+  </div>
+  
+</div>
+<footer class="footer">
+  <span></span>
+</footer>
+<div id="to-top">
+  <span></span>
+  <span></span>
+</div>
+<script>window.blog={baseurl:"", buildAt:"20200805153928"}</script>
+<script type="text/javascript" src="/static/js/blog.js?t=20200805153928"></script>
+<script type="text/javascript" src="/static/js/search.js?t=20200805153928"></script>
+</body>
+</html>
