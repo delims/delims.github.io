@@ -132,7 +132,7 @@
 }
 .page-post td {
   padding: 5px 10px;
-  text-align: left;
+  text-align: center;
   border-right: 1px solid #dddddd;
 }
 .page-post td:last-child {
