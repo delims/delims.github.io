@@ -133,8 +133,7 @@
     border-left:1px solid #dddddd;
 }
 .page-post td {
-  padding: 5px 10px 5px 10px;
-  text-align: center;
+  padding: 5px 5px 5px 5px;
   border-right: 1px solid #dddddd;
 }
 .page-post td:first-child {
@@ -145,6 +144,7 @@
 }
 .page-post .table-container {
   overflow: auto;
+  text-align: left;
   margin: 14px 0;
   border: 0px solid #dddddd;
 }
