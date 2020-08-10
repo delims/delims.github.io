@@ -114,29 +114,31 @@
   background-color: #f5f5f5;
 }
 .page-post table {
-  min-width: 100%;
+  min-width: 0px;
   border-collapse: collapse;
   border-spacing: 0;
-  border: 1px solid #dddddd;
 }
 .page-post tr {
   border-bottom: 1px solid #dddddd;
 }
+
 .page-post th {
+  padding: 5px 10px 5px 10px;
   font-weight: bold;
   border-right: 1px solid #dddddd;
+  border-top:1px solid #dddddd;
 }
-.page-post th:last-child {
-  border-right:0
-  
+
+.page-post th:first-child{
+    border-left:1px solid #dddddd;
 }
 .page-post td {
-  padding: 5px 10px;
+  padding: 5px 10px 5px 10px;
   text-align: center;
   border-right: 1px solid #dddddd;
 }
-.page-post td:last-child {
-  border-right:0
+.page-post td:first-child {
+  border-left: 1px solid #dddddd;
 }
 .page-post table tr:nth-child(even) {
   background-color: #f9f9f9;
@@ -144,14 +146,11 @@
 .page-post .table-container {
   overflow: auto;
   margin: 14px 0;
-  border: 1px solid #dddddd;
+  border: 0px solid #dddddd;
 }
 .page-post .table-container table {
   margin: 0;
   border: 0;
-}
-.page-post .table-container table tbody tr:last-child {
-  border-bottom: 0;
 }
 @media screen and (max-width: 560px) {
   .page-post {
