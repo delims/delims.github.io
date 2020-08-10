@@ -1,0 +1,105 @@
+<h2 id="x86_64-汇编指令">x86_64 汇编指令</h2>
+
+<ul>
+  <li>add 加法 <code class="highlighter-rouge">add rax,rbx</code> rax = rax + rbx</li>
+  <li>sub 减法 <code class="highlighter-rouge">sub rax,rbx</code> rax = rax - rbx</li>
+  <li>imul 乘法</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>imul rax,rbx ; rax = rax * rbx
+imul rbx ; 
+
+只有一个操作数时另一个操作数是rax , 高位保存在rdx,低位保存在rax
+</code></pre></div></div>
+<ul>
+  <li>div 除法</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>div rcx; 
+
+rax = rdx / rcx , rdx = rdx /rcx
+被除数在rdx和rax,高位和低位。
+除数是指定操作数
+商保存在 rax
+余数保存在 rdx
+
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p>浮点数的运算完全不同于整数，从寄存器到指令，都有一套独特的处理流程，浮点单元也称作x87 FPU。</p>
+  </li>
+  <li>
+    <p>浮点数的存储方式</p>
+  </li>
+</ul>
+
+<table>
+  <thead>
+    <tr>
+      <th>类型</th>
+      <th>长度</th>
+      <th>符号位</th>
+      <th>指数位</th>
+      <th>小数部分</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><center>float<cente></cente></center></td>
+      <td><center>32<cente></cente></center></td>
+      <td><center>1<center></center></center></td>
+      <td><center>8<center></center></center></td>
+      <td><center>23<center></center></center></td>
+    </tr>
+    <tr>
+      <td><center>double<center></center></center></td>
+      <td><center>64<center></center></center></td>
+      <td><center>1<center></center></center></td>
+      <td><center>11<center></center></center></td>
+      <td><center>52<center></center></center></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>float 在内存中的存储方式</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> | 1位符号 | 8位指数 | 23位尾数
+</code></pre></div></div>
+
+<p>我们来梳理一下
+float 18.567在计算机中的存储是 1100253495</p>
+
+<p>转成二进制后是</p>
+
+<p>0 10000011 00101001000100100110111</p>
+
+<p>第一位为0代表是正数，1为负数</p>
+
+<p>10000011 的十进制是 131， 由于指数部分有正负之分，所以以127为界限，即真实的指数部分是 131 - 127 = 4</p>
+
+<p>小数部分是 00101001000100100110111</p>
+
+<p>加 1. 得到</p>
+
+<p>1.00101001000100100110111</p>
+
+<p>扩大 2^23 得到
+100101001000100100110111</p>
+
+<p>转成十进制是 9734455</p>
+
+<p>缩小 2^23在乘以指数部分2^4也就等于是缩小 2^19</p>
+
+<p>9734455 / 2^19 = 18.566999435424805</p>
+
+<p>约等于 18.567 ，所以浮点数是不精确的。</p>
+
+<h2 id="关于指数的界限">关于指数的界限</h2>
+
+<p>float 类型 2^8 -1</p>
+
+<p>double 类型 2^11 -1</p>
+
+<p>也就是2的指数位数次幂 - 1</p>
+

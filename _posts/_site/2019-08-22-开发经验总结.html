@@ -1,0 +1,27 @@
+<blockquote>
+  <p>总结一下开发过程遇到的特殊情况，需要注意的点</p>
+</blockquote>
+
+<h4 id="ios9-ios11的系统使用xib布局cell设置uitableviewautomaticdimension自动计算高度时会提示如下的错误解决办法可以给其中一个高度约束设置priority为小于1000">iOS9-iOS11的系统使用Xib布局cell，设置UITableViewAutomaticDimension自动计算高度时会提示如下的错误。解决办法，可以给其中一个高度约束设置priority为小于1000。</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>2019-08-22 13:29:16.973702+0800 BoChuang[58487:1511846] [LayoutConstraints] Unable to simultaneously satisfy constraints.
+	Probably at least one of the constraints in the following list is one you don't want. 
+	Try this: 
+		(1) look at each constraint and try to figure out which you don't expect; 
+		(2) find the code that added the unwanted constraint or constraints and fix it. 
+(
+    "&lt;NSLayoutConstraint:0x600000092890 UIImageView:0x7fe453f7dfe0.height == 48&gt;",
+    "&lt;NSLayoutConstraint:0x600000092520 UIView:0x7fe453f37590.height == 10&gt;",
+    "&lt;NSLayoutConstraint:0x60000008eb50 UIImageView:0x7fe453f7dfe0.top == UITableViewCellContentView:0x7fe453f55220.top + 10&gt;",
+    "&lt;NSLayoutConstraint:0x600000094230 UIView:0x7fe453f37590.top == UIImageView:0x7fe453f7dfe0.bottom + 10.5&gt;",
+    "&lt;NSLayoutConstraint:0x600000094280 UITableViewCellContentView:0x7fe453f55220.bottom == UIView:0x7fe453f37590.bottom&gt;",
+    "&lt;NSLayoutConstraint:0x600000094aa0 UITableViewCellContentView:0x7fe453f55220.height == 78.6667&gt;"
+)
+
+Will attempt to recover by breaking constraint 
+&lt;NSLayoutConstraint:0x600000092890 UIImageView:0x7fe453f7dfe0.height == 48&gt;
+
+Make a symbolic breakpoint at UIViewAlertForUnsatisfiableConstraints to catch this in the debugger.
+The methods in the UIConstraintBasedLayoutDebugging category on UIView listed in &lt;UIKit/UIView.h&gt; may also be helpful.
+
+</code></pre></div></div>

@@ -1,0 +1,79 @@
+<blockquote>
+  <p>苹果源码里的各种宏定义</p>
+</blockquote>
+
+<h3 id="objc_isa_availability">OBJC_ISA_AVAILABILITY</h3>
+<p>以前不知道runtime源码的时候每次看runtime.h文件时看到这个宏定义就头大，现在可以解开他神秘的面纱了</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	/* OBJC_ISA_AVAILABILITY: `isa` will be deprecated or unavailable 
+	 * in the future */
+	#if !defined(OBJC_ISA_AVAILABILITY)
+	#   if __OBJC2__
+	#       define OBJC_ISA_AVAILABILITY  __attribute__((deprecated))
+	#   else
+	#       define OBJC_ISA_AVAILABILITY  /* still available */
+	#   endif
+#endif
+</code></pre></div></div>
+
+<h3 id="__objc2__">__OBJC2__</h3>
+<p>这个宏也是经常看到的一个宏，我们来看看它是怎么定义的</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	// Define __OBJC2__ for the benefit of our asm files.
+	#ifndef __OBJC2__
+	#   if TARGET_OS_OSX  &amp;&amp;  !TARGET_OS_IOSMAC  &amp;&amp;  __i386__
+	        // old ABI 
+	#   else
+	#       define __OBJC2__ 1
+	#   endif
+	#endif
+</code></pre></div></div>
+<p>这里有一个名词 ABI（Application Binary Interface）: 应用程序二进制接口 描述了应用程序和操作系统之间，一个应用和它的库之间，或者应用的组成部分之间的低接口。</p>
+
+<p>我没有找到 TARGET_OS_IOSMAC 是怎么定义的，我暂且理解为运行iOS系统的Mac吧，如果有大神知道，望不吝赐教。</p>
+
+<h3 id="objc2_unavailable">OBJC2_UNAVAILABLE</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	/* OBJC2_UNAVAILABLE: unavailable in objc 2.0, deprecated in Leopard */
+	#if !defined(OBJC2_UNAVAILABLE)
+	#   if __OBJC2__
+	#       define OBJC2_UNAVAILABLE UNAVAILABLE_ATTRIBUTE
+	#   else
+	        /* plain C code also falls here, but this is close enough */
+	#       define OBJC2_UNAVAILABLE                                       \
+	            __OSX_DEPRECATED(10.5, 10.5, "not available in __OBJC2__") \
+	            __IOS_DEPRECATED(2.0, 2.0, "not available in __OBJC2__")   \
+	            __TVOS_UNAVAILABLE __WATCHOS_UNAVAILABLE __BRIDGEOS_UNAVAILABLE
+	#   endif
+	#endif
+</code></pre></div></div>
+
+<h3 id="unavailable_attribute">UNAVAILABLE_ATTRIBUTE</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	/*
+	 * only certain compilers support __attribute__((unavailable))
+	 */
+	#if defined(__GNUC__) &amp;&amp; ((__GNUC__ &gt;= 4) || ((__GNUC__ == 3) &amp;&amp; (__GNUC_MINOR__ &gt;= 1)))
+	    #define UNAVAILABLE_ATTRIBUTE __attribute__((unavailable))
+	#else
+	    #define UNAVAILABLE_ATTRIBUTE
+	#endif
+
+</code></pre></div></div>
+<p>__attribute__((unavailable)) 告诉编译器该方法不可用.</p>
+
+<h3 id="objc_old_dispatch_prototypes">OBJC_OLD_DISPATCH_PROTOTYPES</h3>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	/* OBJC_OLD_DISPATCH_PROTOTYPES == 0 enforces the rule that the dispatch 
+	 * functions must be cast to an appropriate function pointer type. */
+	#if !defined(OBJC_OLD_DISPATCH_PROTOTYPES)
+	#   if __swift__
+	        // Existing Swift code expects IMP to be Comparable.
+	        // Variadic IMP is comparable via OpaquePointer; non-variadic IMP isn't.
+	#       define OBJC_OLD_DISPATCH_PROTOTYPES 1
+	#   else
+	#       define OBJC_OLD_DISPATCH_PROTOTYPES 1
+	#   endif
+	#endif
+</code></pre></div></div>
+<p>objc_old_dispatch_prototype == 0强制执行分派规则函数必须转换为适当的函数指针类型。</p>
+

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Objective C类型定义-delims Blog</title>
+  <meta charset="utf-8" />
+  <meta http-equiv="content-language" content="zh-CN" />
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="applicable-device" content="pc,mobile">
+  <meta name="google-site-verification" content="ckhUaoa05QCmWoE1FafzTBcqYI4yBOy-UJKopXDS18M" />
+  <meta name="author" content="delims" />
+  <meta name="description" content="Objective C类型定义"/>
+  <meta name="keywords" content="delims,iOS"/>
+  <link rel="icon" href="/static/img/favicon.ico" />
+  <link rel="apple-touch-icon" href="/static/img/logo.png" />
+  <link rel="stylesheet" href="/static/css/common.css?t=20200810143914">
+  <link rel="stylesheet" href="/static/css/post.css?t=20200810143914">
+  <link rel="stylesheet" href="/static/css/highlight.css?t=20200810143914">
+</head>
+<body ondragstart="return false;">
+<header class="header">
+  <img class="logo" src="/static/img/logo.jpg" />
+  <nav class="menu">
+    <a href="/" class="hover-underline">首页</a>
+    <a href="/pages/categories.html" class="hover-underline">归类</a>
+    <a href="/pages/search.html" class="hover-underline">搜索</a>
+    <a href="/pages/about.html" class="hover-underline">关于</a>
+    </nav>
+</header>
+<div class="page page-post">
+  <h1 class="title" id="Objective C类型定义">Objective C类型定义</h1>
+  
+  <div class="subtitle">delims 于 2020-08-06 发布</div>
+  
+  <div class="post">
+    <blockquote>
+  <p>很久之前整理的，放在这里方便查找。</p>
+</blockquote>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>typedef struct objc_selector *SEL;
+typedef struct objc_object   *id;
+typedef struct objc_class    *Class;
+typedef struct objc_method   *Method;
+typedef struct objc_ivar     *Ivar;
+typedef struct objc_category *Category;
+typedef struct objc_property *objc_property_t;
+
+typedef void (*IMP)(void /* id, SEL, ... */ ); 
+
+
+</code></pre></div></div>
+
+
+  </div>
+  
+</div>
+<footer class="footer">
+  <span></span>
+</footer>
+<div id="to-top">
+  <span></span>
+  <span></span>
+</div>
+<script>window.blog={baseurl:"", buildAt:"20200810143914"}</script>
+<script type="text/javascript" src="/static/js/blog.js?t=20200810143914"></script>
+<script type="text/javascript" src="/static/js/search.js?t=20200810143914"></script>
+</body>
+</html>

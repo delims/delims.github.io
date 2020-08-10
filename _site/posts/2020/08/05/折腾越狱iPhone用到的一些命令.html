@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>折腾越狱iphone用到的一些命令-delims Blog</title>
+  <meta charset="utf-8" />
+  <meta http-equiv="content-language" content="zh-CN" />
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="applicable-device" content="pc,mobile">
+  <meta name="google-site-verification" content="ckhUaoa05QCmWoE1FafzTBcqYI4yBOy-UJKopXDS18M" />
+  <meta name="author" content="delims" />
+  <meta name="description" content="折腾越狱iphone用到的一些命令"/>
+  <meta name="keywords" content="delims,iOS"/>
+  <link rel="icon" href="/static/img/favicon.ico" />
+  <link rel="apple-touch-icon" href="/static/img/logo.png" />
+  <link rel="stylesheet" href="/static/css/common.css?t=20200810143914">
+  <link rel="stylesheet" href="/static/css/post.css?t=20200810143914">
+  <link rel="stylesheet" href="/static/css/highlight.css?t=20200810143914">
+</head>
+<body ondragstart="return false;">
+<header class="header">
+  <img class="logo" src="/static/img/logo.jpg" />
+  <nav class="menu">
+    <a href="/" class="hover-underline">首页</a>
+    <a href="/pages/categories.html" class="hover-underline">归类</a>
+    <a href="/pages/search.html" class="hover-underline">搜索</a>
+    <a href="/pages/about.html" class="hover-underline">关于</a>
+    </nav>
+</header>
+<div class="page page-post">
+  <h1 class="title" id="折腾越狱iphone用到的一些命令">折腾越狱iphone用到的一些命令</h1>
+  
+  <div class="subtitle">delims 于 2020-08-05 发布</div>
+  
+  <div class="post">
+    <h2 id="把c语言源码编译为iphone可执行程序">把c语言源码编译为iPhone可执行程序。</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>//此时生成的是arm64架构的目标程序。
+
+xcrun -sdk iphoneos clang -arch arm64 uft8_to_word.c -o b.out
+
+</code></pre></div></div>
+<h2 id="复制文件到iphone">复制文件到iPhone</h2>
+
+<p>上面我编译了这个小程序，功能提供编码区间输出所有的汉子。现在把程序复制到手机。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scp b.out root@192.168.30.1:~
+//如果是复制文件夹使用
+scp -r b.out root@192.168.30.1:~
+
+</code></pre></div></div>
+<h2 id="ssh链接iphone">ssh链接iPhone</h2>
+
+<ul>
+  <li>通过ip地址链接iPhone</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh root@192.168.30.1
+</code></pre></div></div>
+<p>这种方式输入命令略卡</p>
+
+<ul>
+  <li>通过USB链接</li>
+</ul>
+
+<p>将mac本机端口通过usbmuxd映射到手机的22端口</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./tcprelay.py -t 22:2222
+
+</code></pre></div></div>
+
+<p>此时访问本机2222端口就是通过USB访问手机</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh root@localhost -p 2222
+</code></pre></div></div>
+
+<p>既可以通过USB数据线ssh手机</p>
+
+<p>使用这种方式链接，终端输入命令流畅</p>
+
+<h2 id="在iphone中执行程序">在iPhone中执行程序</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>iPhone6s:~ root# ./b.out 
+Killed: 9
+iPhone6s:~ root# ldid -S b.out
+
+</code></pre></div></div>
+<p>直接执行会提示killed:9 ,原因是没有签名。
+使用ldid命令签名后可以正常运行。</p>
+
+
+  </div>
+  
+</div>
+<footer class="footer">
+  <span></span>
+</footer>
+<div id="to-top">
+  <span></span>
+  <span></span>
+</div>
+<script>window.blog={baseurl:"", buildAt:"20200810143914"}</script>
+<script type="text/javascript" src="/static/js/blog.js?t=20200810143914"></script>
+<script type="text/javascript" src="/static/js/search.js?t=20200810143914"></script>
+</body>
+</html>

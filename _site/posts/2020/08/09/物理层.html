@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>物理层-delims Blog</title>
+  <meta charset="utf-8" />
+  <meta http-equiv="content-language" content="zh-CN" />
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="applicable-device" content="pc,mobile">
+  <meta name="google-site-verification" content="ckhUaoa05QCmWoE1FafzTBcqYI4yBOy-UJKopXDS18M" />
+  <meta name="author" content="delims" />
+  <meta name="description" content="物理层"/>
+  <meta name="keywords" content="delims,网络"/>
+  <link rel="icon" href="/static/img/favicon.ico" />
+  <link rel="apple-touch-icon" href="/static/img/logo.png" />
+  <link rel="stylesheet" href="/static/css/common.css?t=20200810143914">
+  <link rel="stylesheet" href="/static/css/post.css?t=20200810143914">
+  <link rel="stylesheet" href="/static/css/highlight.css?t=20200810143914">
+</head>
+<body ondragstart="return false;">
+<header class="header">
+  <img class="logo" src="/static/img/logo.jpg" />
+  <nav class="menu">
+    <a href="/" class="hover-underline">首页</a>
+    <a href="/pages/categories.html" class="hover-underline">归类</a>
+    <a href="/pages/search.html" class="hover-underline">搜索</a>
+    <a href="/pages/about.html" class="hover-underline">关于</a>
+    </nav>
+</header>
+<div class="page page-post">
+  <h1 class="title" id="物理层">物理层</h1>
+  
+  <div class="subtitle">delims 于 2020-08-09 发布</div>
+  
+  <div class="post">
+    <ul>
+  <li>单播(unicast)帧（一对一），即收到的帧的MAC地址与本站的硬件地址相同。</li>
+  <li>广播(broadcast)帧（一对全体），即发送给本局域网上所有站点的帧（全1地址）。</li>
+  <li>
+    <p>多播(multicast)帧（一对多），即发送给本局域网上一部分站点的帧。</p>
+  </li>
+  <li>太网适配器还可设置为一种特殊的工作方式，即混杂方式(promiscuous mode)。工作在混杂方式的适配器只要“听到”有帧在以太网上传输就都悄悄地接收下来，而不管这些帧是发往哪个站</li>
+</ul>
+
+<blockquote>
+  <p>MAC 帧格式</p>
+</blockquote>
+
+<table>
+  <thead>
+    <tr>
+      <th>说明</th>
+      <th>目的MAC地址</th>
+      <th>源MAC地址</th>
+      <th>类型</th>
+      <th>数据部分</th>
+      <th>FCS</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>长度</td>
+      <td>6</td>
+      <td>6</td>
+      <td>2</td>
+      <td>46 ~ 1500</td>
+      <td>4</td>
+    </tr>
+  </tbody>
+</table>
+
+<ul>
+  <li>类型字段为<strong>0x0800</strong>表示上层使用的IP数据报。如果是0x8137表示是 Novell IPX、</li>
+  <li>Mac帧前面有<strong>7</strong>个字节的前<strong>同步码</strong>和1个字节的<strong>帧开始定界符</strong></li>
+  <li><strong>同步码</strong>为 10101010 <strong>帧开始定界符</strong>为10101011。</li>
+</ul>
+
+<h1 id="在数据链路层扩展以太网">在数据链路层扩展以太网</h1>
+
+<ul>
+  <li>网桥工作在数据链路层，它根据MAC帧的目的地址对收到的帧进行<strong>转发</strong>和<strong>过滤</strong>。</li>
+  <li>网桥依靠转发表来转发帧，转发表也叫<strong>转发数据库</strong>或<strong>路由目录</strong>。</li>
+  <li><strong>以太网交换机</strong>就是多接口的<strong>网桥</strong>。</li>
+</ul>
+
+  </div>
+  
+</div>
+<footer class="footer">
+  <span></span>
+</footer>
+<div id="to-top">
+  <span></span>
+  <span></span>
+</div>
+<script>window.blog={baseurl:"", buildAt:"20200810143914"}</script>
+<script type="text/javascript" src="/static/js/blog.js?t=20200810143914"></script>
+<script type="text/javascript" src="/static/js/search.js?t=20200810143914"></script>
+</body>
+</html>

@@ -1,6 +1,6 @@
 .page-post {
   font-size: 14px;
-  line-height: 2;
+  line-height: 1.6;
   word-break: break-all;
 }
 .page-post .title {
@@ -124,11 +124,19 @@
 }
 .page-post th {
   font-weight: bold;
+  border-right: 1px solid #dddddd;
 }
-.page-post th,
+.page-post th:last-child {
+  border-right:0
+  
+}
 .page-post td {
   padding: 5px 10px;
   text-align: left;
+  border-right: 1px solid #dddddd;
+}
+.page-post td:last-child {
+  border-right:0
 }
 .page-post table tr:nth-child(even) {
   background-color: #f9f9f9;
