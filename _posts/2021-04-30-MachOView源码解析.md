@@ -7,7 +7,7 @@ categories: iOS
 > 以解析一个 big sur 上的 App Store 应用为例，从macOS  11开始自带程序支持 x86_64 和  arm64e
 
 - info.plist 新建 Document Types，class设置为MVDocument
-驾驶
+
 - NSDocumentController 调用 openDocumentWithContentsOfURL 触发 MVDocument 调用init方法
 
 - MVDocument 初始化同时创建 dataController ，添加监听三个通知，MVDataTreeChangedNotification、MVDataTableChangedNotification、MVThreadStateChangedNotification
